@@ -59,7 +59,7 @@ public class ChatController {
 
     @GetMapping("/messages")
     @ResponseBody
-    public RsData<List<ChatMessage>> readMessage(MessagesRequest req) {
+    public RsData<MessagesResponse> readMessage(MessagesRequest req) {
         List<ChatMessage> messages = chatMessages;
 
         // 번호가 입력 되었을 경우.
@@ -74,6 +74,12 @@ public class ChatController {
                 // 만약에 index가 있으면, 0번부터 index 번까지 제거한 리스트를 만든다.
                 messages = messages.subList(index + 1, messages.size());
             }
+
+            return new RsData<>(
+                    "S-1",
+                    "성공",
+                    new MessagesResponse(messages, messages.size())
+            );
         }
 
         log.debug("req : {}", req);
