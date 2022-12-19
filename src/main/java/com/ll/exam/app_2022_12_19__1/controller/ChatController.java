@@ -75,17 +75,11 @@ public class ChatController {
                 messages = messages.subList(index + 1, messages.size());
             }
 
-            return new RsData<>(
-                    "S-1",
-                    "성공",
-                    new MessagesResponse(messages, messages.size())
-            );
-        }
 
-        log.debug("req : {}", req);
-        return new RsData(
+        }
+        return new RsData<>(
                 "S-1",
-                "메세지가 작성되었습니다.",
+                "성공",
                 new MessagesResponse(messages, messages.size())
         );
     }

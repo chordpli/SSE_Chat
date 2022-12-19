@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class RsData <T>{
-    String resultCode;
-    String msg;
-    T data;
+    private String resultCode;
+    private String msg;
+    private T data;
 }
