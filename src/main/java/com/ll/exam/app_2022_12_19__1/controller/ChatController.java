@@ -2,11 +2,14 @@ package com.ll.exam.app_2022_12_19__1.controller;
 
 import com.ll.exam.app_2022_12_19__1.ChatMessage;
 import com.ll.exam.app_2022_12_19__1.RsData;
+import com.ll.exam.app_2022_12_19__1.SseEmitters;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +17,11 @@ import java.util.stream.IntStream;
 
 @Controller
 @RequestMapping("/chat")
+@RequiredArgsConstructor
 @Slf4j
 public class ChatController {
+
+    private final SseEmitters sseEmitter;
 
     private List<ChatMessage> chatMessages = new ArrayList<>();
 
@@ -40,6 +46,8 @@ public class ChatController {
         ChatMessage message = new ChatMessage(dto.getAuthorName(), dto.getContent());
         // 채팅 메세지가 들어오면 저장.
         chatMessages.add(message);
+
+        sseEmitter.noti("chat__messageAdded");
 
         return new RsData("S-1", "메세지가 작성되었습니다.", new writeMessageResponse(message.getId()));
     }
